@@ -47,7 +47,10 @@ class Game:
         self.laser_sound = pygame.mixer.Sound('assets/sounds/laser.wav')
         self.laser_sound.set_volume(0.2)
         self.explosion_sound = pygame.mixer.Sound('assets/sounds/explosion.wav')
-        self.explosion_sound.set_volume(0.2)            
+        self.explosion_sound.set_volume(0.2) 
+
+        # Backbround image
+        self.background = pygame.image.load('assets/background.png').convert()           
              
     def alient_setup(self, rows, cols, x_distance = 60, y_distance = 48, x_offset = 70, y_offset = 100):
         for row_index, row in enumerate(range(rows)):
@@ -243,6 +246,7 @@ if __name__ == "__main__":
                     running = False
         
         screen.fill((30,30,30))  # Dark background
+        screen.blit(game.background, (0,0))
         
         if not game_over and not victory:
             game.run()
