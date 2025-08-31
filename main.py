@@ -4,6 +4,7 @@ import obstacle
 from random import choice, randint
 from alien import Alien, ExtraAlien
 from laser import Laser
+from crt import CRT
 
 class Game:
     def __init__(self):
@@ -48,7 +49,6 @@ class Game:
         self.explosion_sound = pygame.mixer.Sound('assets/sounds/explosion.wav')
         self.explosion_sound.set_volume(0.2)            
              
-
     def alient_setup(self, rows, cols, x_distance = 60, y_distance = 48, x_offset = 70, y_offset = 100):
         for row_index, row in enumerate(range(rows)):
             for col_index, col in enumerate(range(cols)):
@@ -203,32 +203,17 @@ class Game:
         self.display_lives()  
         self.display_score()
 
-class CRT:
-    def __init__(self):
-        self.tv = pygame.image.load('assets/tv.png').convert_alpha()
-        self.tv = pygame.transform.scale(self.tv, (screen_width, screen_height))
-    
-    def create_crt_lines(self):
-        line_height = 3
-        line_amount = int(screen_height / line_height)
-        for line in range(line_amount):
-            y_pos = line * line_height
-            pygame.draw.line(self.tv, 'black', (0,y_pos), (screen_width, y_pos), 1)
-    
-    def draw(self):
-        self.tv.set_alpha(randint(75,90))
-        self.create_crt_lines()
-        screen.blit(self.tv, (0,0))  
+
 
 if __name__ == "__main__": 
     pygame.init()
-    screen_width = 600
+    screen_width = 800
     screen_height = 600
     screen = pygame.display.set_mode((screen_width, screen_height))
     clock = pygame.time.Clock();
     pygame.display.set_caption("Space Game")
     game = Game()
-    crt = CRT() 
+    crt = CRT(screen_width, screen_height) 
 
     ALIENLASER = pygame.USEREVENT + 1
     pygame.time.set_timer(ALIENLASER, 800)    
@@ -261,7 +246,7 @@ if __name__ == "__main__":
         
         if not game_over and not victory:
             game.run()
-            crt.draw()
+            crt.draw(screen)
             
             # Check for game over or victory
             if game.lives <= 0:
