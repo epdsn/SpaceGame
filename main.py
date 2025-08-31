@@ -41,9 +41,9 @@ class Game:
         self.et_spawn_time = randint(40, 80)
 
         # Audio
-        music = pygame.mixer.Sound('assets/sounds/music.wav')
-        music.set_volume(0.2)
-        music.play(loops = -1)  
+        self.music = pygame.mixer.Sound('assets/sounds/music.wav')
+        self.music.set_volume(0.2)
+        self.music.play(loops = -1)  
         self.laser_sound = pygame.mixer.Sound('assets/sounds/laser.wav')
         self.laser_sound.set_volume(0.2)
         self.explosion_sound = pygame.mixer.Sound('assets/sounds/explosion.wav')
@@ -205,6 +205,10 @@ class Game:
         self.et_alien.draw(screen)
         self.display_lives()  
         self.display_score()
+    
+    def stop_music(self):
+        """Stop the background music."""
+        self.music.stop()
 
 
 
@@ -229,6 +233,7 @@ if __name__ == "__main__":
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                game.stop_music()
                 pygame.quit()
                 sys.exit()
                 running = False
@@ -236,11 +241,14 @@ if __name__ == "__main__":
                 game.alien_shoot()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and (game_over or victory):
+                    # Stop current music before restarting
+                    game.stop_music()
                     # Restart the game
                     game = Game()
                     game_over = False
                     victory = False
                 elif event.key == pygame.K_ESCAPE and (game_over or victory):
+                    game.stop_music()
                     pygame.quit()
                     sys.exit()
                     running = False
