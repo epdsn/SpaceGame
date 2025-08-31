@@ -52,7 +52,7 @@ class Game:
         # Backbround image
         self.background = pygame.image.load('assets/background.png').convert()           
              
-    def alient_setup(self, rows, cols, x_distance = 60, y_distance = 48, x_offset = 70, y_offset = 100):
+    def alient_setup(self, rows, cols, x_distance = 80, y_distance = 55, x_offset = 70, y_offset = 100):
         for row_index, row in enumerate(range(rows)):
             for col_index, col in enumerate(range(cols)):
                 x = col_index * x_distance + x_offset
