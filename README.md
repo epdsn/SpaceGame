@@ -33,7 +33,7 @@ Space Game is a classic arcade-style space shooter where you pilot a spaceship t
 
 3. **Run the game**:
    ```bash
-   python main.py
+   python space_game.py
    ```
 
 ## 🎯 Controls
@@ -45,9 +45,12 @@ Space Game is a classic arcade-style space shooter where you pilot a spaceship t
 
 ```
 SpaceGame/
-├── main.py          # Main game loop and initialization
-├── player.py        # Player spaceship class and logic
-├── space_ship.py    # Base spaceship functionality
+├── space_game.py    # Main entry point
+├── src/             # Source code directory
+│   ├── main.py      # Main game loop and initialization
+│   ├── obstacle.py  # Obstacle creation class
+│   ├── player.py    # Player spaceship class and logic
+│   └── space_ship.py # Base spaceship functionality
 ├── assets/          # Game assets (images, sounds, etc.)
 │   └── player.png   # Player spaceship sprite
 ├── README.md        # This file
