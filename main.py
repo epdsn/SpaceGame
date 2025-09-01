@@ -11,13 +11,13 @@ class Game:
         
         # Health and score setup
         self.lives = 3
-        self.lives_surface  = pygame.image.load('assets/player.png').convert_alpha()
-        self.lives_x_start_pos = screen_width - (self.lives_surface.get_size()[0] * 2 + 20) 
+        self.lives_surface  = pygame.image.load('assets/lives.png').convert_alpha()
+        self.lives_x_start_pos = screen_width - (self.lives_surface.get_size()[0] * 2 + 20)
+        self.lives_y_start_pos = screen_height - (self.lives_surface.get_size()[1] + 10) 
         self.score = 0
         self.font = pygame.font.Font('assets/fonts/ARCADECLASSIC.TTF', 20)
         self.text_color = (255,255,255) 
-             
-        
+                
         #Player setup
         player_sprite = Player((screen_width/2, screen_height), screen_width, 5)
         self.player = pygame.sprite.GroupSingle(player_sprite)
@@ -33,7 +33,13 @@ class Game:
         # Alien setup
         self.aliens = pygame.sprite.Group()
         self.alien_lasers = pygame.sprite.Group()
-        self.alient_setup(rows = 5, cols = 8, x_distance = 80, y_distance = 60, x_offset = 70, y_offset = 100)
+        self.alient_setup(
+            rows = 5, 
+            cols = 8, 
+            x_distance = 80, 
+            y_distance = 60, 
+            x_offset = 70, 
+            y_offset = 100)
         self.alien_direction = 1 
 
         # E.T. setup
@@ -144,7 +150,8 @@ class Game:
     def display_lives(self):
         for live in range(self.lives - 1):
             x = self.lives_x_start_pos + (live * (self.lives_surface.get_size()[0] + 10))
-            screen.blit(self.lives_surface, (x,8))   
+            y = self.lives_y_start_pos
+            screen.blit(self.lives_surface, (x,y))   
     
     def display_score(self):
         score_surf = self.font.render(f'Score {self.score}', True, self.text_color)
@@ -186,7 +193,10 @@ class Game:
             pygame.display.flip()
             return True
         return False 
-    
+
+    def stop_music(self):
+        self.music.stop()
+
     def run(self):
         self.player.update()
         self.alien_lasers.update()
@@ -205,12 +215,6 @@ class Game:
         self.et_alien.draw(screen)
         self.display_lives()  
         self.display_score()
-    
-    def stop_music(self):
-        """Stop the background music."""
-        self.music.stop()
-
-
 
 if __name__ == "__main__": 
     pygame.init()

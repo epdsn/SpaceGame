@@ -18,9 +18,9 @@ class Player(pygame.sprite.Sprite):
     
     def get_input(self):
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.rect.x += self.speed
-        elif keys[pygame.K_LEFT]:
+        elif keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.rect.x -= self.speed
         if keys[pygame.K_SPACE] and self.ready:
             self.shoot_laser()
