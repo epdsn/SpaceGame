@@ -2,7 +2,7 @@ import pygame
 from laser import Laser
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, constraint, speed):
+    def __init__(self, pos, constraint, speed, sound_on):
         super().__init__()
         self.image = pygame.image.load('assets/player.png').convert_alpha();
         self.rect = self.image.get_rect(midbottom = pos)
@@ -12,6 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.laser_time = 0
         self.laser_cooldown = 600  # milliseconds
         self.lasers = pygame.sprite.Group()
+        self.sound_on = sound_on
 
         self.laser_sound = pygame.mixer.Sound('assets/sounds/laser.wav')
         self.laser_sound.set_volume(0.2)
@@ -26,7 +27,8 @@ class Player(pygame.sprite.Sprite):
             self.shoot_laser()
             self.ready = False   
             self.laser_time = pygame.time.get_ticks()
-            self.laser_sound.play() 
+            if self.sound_on:
+                self.laser_sound.play() 
     
     def recharge_laser(self):        
         if not self.ready:

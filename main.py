@@ -8,6 +8,12 @@ from crt import CRT
 
 class Game:
     def __init__(self):
+
+        # Game Options
+        self.music_on = True  # Set to True to enable background music
+        self.sound_on = True  # Set to True to enable sound effects
+        self.music_volume = 0.2 if self.music_on else 0
+        self.sound_volume = 0.2 if self.sound_on else 0
         
         # Health and score setup
         self.lives = 3
@@ -15,11 +21,11 @@ class Game:
         self.lives_x_start_pos = screen_width - (self.lives_surface.get_size()[0] * 2 + 20)
         self.lives_y_start_pos = screen_height - (self.lives_surface.get_size()[1] + 10) 
         self.score = 0
-        self.font = pygame.font.Font('assets/fonts/ARCADECLASSIC.TTF', 20)
+        self.font = pygame.font.Font('assets/fonts/symtext.ttf', 20)
         self.text_color = (255,255,255) 
                 
         #Player setup
-        player_sprite = Player((screen_width/2, screen_height), screen_width, 5)
+        player_sprite = Player((screen_width/2, screen_height), screen_width, 5, self.sound_on)
         self.player = pygame.sprite.GroupSingle(player_sprite)
         
         # Obstacle setup
@@ -48,12 +54,12 @@ class Game:
 
         # Audio
         self.music = pygame.mixer.Sound('assets/sounds/music.wav')
-        self.music.set_volume(0.2)
+        self.music.set_volume(self.music_volume)
         self.music.play(loops = -1)  
         self.laser_sound = pygame.mixer.Sound('assets/sounds/laser.wav')
-        self.laser_sound.set_volume(0.2)
+        self.laser_sound.set_volume(self.sound_volume)
         self.explosion_sound = pygame.mixer.Sound('assets/sounds/explosion.wav')
-        self.explosion_sound.set_volume(0.2) 
+        self.explosion_sound.set_volume(self.sound_volume) 
 
         # Backbround image
         self.background = pygame.image.load('assets/background.png').convert()           
@@ -101,7 +107,8 @@ class Game:
             random_alien =  choice(self.aliens.sprites())
             laser_sprite = Laser(random_alien.rect.center, 6, screen_height)
             self.alien_lasers.add(laser_sprite)
-            self.laser_sound.play()  
+            if self.sound_on:
+                self.laser_sound.play()  
             
     def et_timer(self):
         self.et_spawn_time -= 1
@@ -119,7 +126,8 @@ class Game:
                     for alien in alien_hit:
                         self.score += alien.value 
                     laser.kill()
-                    self.explosion_sound.play()
+                    if self.sound_on:
+                        self.explosion_sound.play()
                 # Obstacle collision
                 if pygame.sprite.spritecollide(laser, self.blocks, True):
                     laser.kill()
@@ -127,7 +135,8 @@ class Game:
                 if pygame.sprite.spritecollide(laser, self.et_alien, True):
                     self.score += 500 
                     laser.kill()
-                    self.explosion_sound.play() 
+                    if self.sound_on:
+                        self.explosion_sound.play() 
                     
         # Alien lasers
         if self.alien_lasers:
